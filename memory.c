@@ -1,4 +1,5 @@
 #include "include/memory.h"
+#include <stdio.h>
 
 void reset_memory(memory_t * memory) {
     for(int i=0; i < MEM_LENGHT; i++)
@@ -15,4 +16,9 @@ uint8_t read_byte_from_memory(memory_t * memory, uint8_t address) {
 void write_byte_to_memory(memory_t * memory, uint8_t address, uint8_t value) {
     memory->data[address] = value;
     memory->write_count++;
+}
+
+void print_memory(memory_t * memory) {
+    for(int i=0; i < MEM_LENGHT; i ++)
+        printf("[0x%x] -> (0x%x)\n", i, memory->data[i]);
 }

@@ -27,7 +27,7 @@ int main() {
             break;
     }
 
-    printf("The result of test is = %d\n", memory.data[0xF2]);
+    print_memory(&memory);
 
     return 0;
 }

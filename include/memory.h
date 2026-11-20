@@ -14,5 +14,6 @@ typedef struct {
 void reset_memory(memory_t * memory);
 uint8_t read_byte_from_memory(memory_t * memory, uint8_t address);
 void write_byte_to_memory(memory_t * memory, uint8_t address, uint8_t value);
+void print_memory(memory_t * memory);
 
 #endif

@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "include/cpu.h"
 #include "include/memory.h"
 #include "include/instructions.h"

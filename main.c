@@ -19,49 +19,58 @@ int main() {
         return -1;
 
     char line[256];
-    uint8_t line_number = 0;
 
     while(fgets(line, sizeof(line), file) != NULL) {
 
-        char *comment_start = strchr(line, ';');
-        if (comment_start != NULL) {
-            *comment_start = '\0';
+        char *comment = strchr(line, ';');
+        if (comment != NULL) {
+            *comment = '\0';
         }
 
-        line[strcspn(line, " \r\n")] = '\0';
+        char line_number_text[5] = {0};
+        char constant_or_op_code_text[5]     = {0};
+        char address_text[5]     = {0};
 
-        printf("Line %d instruction: '%s'\n", line_number, line);
+        int total_readings = sscanf(line, "%4s %4s %4s", line_number_text, constant_or_op_code_text, address_text);
 
-        long int number = 0;
-
-        if (line[0] == '0' || (line[1] == 'x' && line[1] == 'X')) {
-            number = strtol(line, NULL, 16);
+        if (total_readings < 2) {
+            continue;
         }
 
-        printf("Valor: %ld (0x%lx)\n", number, number);
+        uint8_t line_number = strtol(line_number_text, NULL, 16);
 
-        char * instructions[11] = {"NOP", "STA", "LDA", "ADD", "OR", "AND", "NOT", "JMP", "JN", "JZ", "HLT"};
-        uint8_t instructions_int[11] = {0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x80, 0x90, 0xA0, 0xF0};
 
-        if(!number) {
-            for(int i=0; i<11; i++) {
-                if(!strcmp(line, instructions[i])) {
-                    memory.data[line_number] = instructions_int[i];
-                    break;
-                }
+        const char *instructions[11] = {"NOP", "STA", "LDA", "ADD", "OR", "AND", "NOT", "JMP", "JN", "JZ", "HLT"};
+        const uint8_t instructions_int[11] = {0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x80, 0x90, 0xA0, 0xF0};
+
+        bool is_instruction = false;
+
+        for (int i = 0; i < 11; i++) {
+            if (strcmp(constant_or_op_code_text, instructions[i]) == 0) {
+                memory.data[line_number] = instructions_int[i];
+                is_instruction = true;
+                break;
             }
-        } else {
-            memory.data[line_number] = number;
-        }   
+        }
 
-        line_number++;
+        if (!is_instruction) {
+            memory.data[line_number] = (uint8_t)strtol(constant_or_op_code_text, NULL, 16);
+        }
+
+        if(total_readings == 3 && line_number < 0xFF) {
+            uint8_t address = strtol(address_text, NULL, 16);
+            memory.data[line_number + 1] = address;
+        }
+
     }
+
+    fclose(file);
 
     print_memory(&memory);
 
     while(1) {
         step(&cpu, &memory);
-    
+
         if(cpu.flags.HLT)
             break;
     }

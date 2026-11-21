@@ -1,6 +1,9 @@
 #ifndef INSTRUCTIONS_H
 #define INSTRUCTIONS_H
 
+#include <stdio.h>
+#include "memory.h"
+
 enum Instructions {
     NOP = 0x00,
     STA = 0x10,
@@ -14,5 +17,7 @@ enum Instructions {
     JZ = 0xA0,
     HLT = 0xF0,
 };
+
+int feed_memory_with_mem_file(const char * file_name, memory_t * memory);
 
 #endif

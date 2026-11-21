@@ -5,6 +5,7 @@
 #include "memory.h"
 
 typedef uint8_t u8;
+typedef int8_t s8;
 
 typedef struct {
     u8 AC : 8;

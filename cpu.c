@@ -53,17 +53,17 @@ static void execute(cpu_t * cpu, memory_t * memory) {
             break;
         case JMP: // PC = MEM(addr)
             cpu->instruction_register.operand_address = read_byte_from_memory_at_program_counter_and_advance(cpu, memory);    
-            cpu->registers.PC = read_byte_from_memory(memory, cpu->instruction_register.operand_address);
+            cpu->registers.PC = cpu->instruction_register.operand_address;
             break;
         case JN:
             cpu->instruction_register.operand_address = read_byte_from_memory_at_program_counter_and_advance(cpu, memory);    
             if(cpu->flags.N == 1)
-                cpu->registers.PC = read_byte_from_memory(memory, cpu->instruction_register.operand_address);
+                cpu->registers.PC = cpu->instruction_register.operand_address;
             break;
         case JZ:
             cpu->instruction_register.operand_address = read_byte_from_memory_at_program_counter_and_advance(cpu, memory);   
             if(cpu->flags.Z == 1)
-                cpu->registers.PC = read_byte_from_memory(memory, cpu->instruction_register.operand_address);
+                cpu->registers.PC = cpu->instruction_register.operand_address;
             break;
         case NOP:
             cpu->instruction_register.operand_address = 0;

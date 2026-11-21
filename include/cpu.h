@@ -18,7 +18,7 @@ typedef struct {
 } flags_t;
 
 typedef struct {
-    u8 op_code : 4;
+    u8 op_code : 8;
     u8 operand_address : 8;
 } instruction_register_t;
 

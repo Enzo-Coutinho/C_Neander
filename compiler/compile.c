@@ -5,7 +5,7 @@
 #include <inttypes.h>
 
 int main(int argc, char *argv[]) {
-    FILE * file = fopen("program.txt", "r");
+    FILE * file = fopen(argv[0], "r");
 
     if(file == NULL)
         return -1;

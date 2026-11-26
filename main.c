@@ -3,14 +3,14 @@
 #include "include/memory.h"
 #include "include/instructions.h"
 
-int main() {
+int main(int argc, char * argv[]) {
     cpu_t cpu;
     memory_t memory;
 
     reset_cpu(&cpu);
     reset_memory(&memory);
 
-    int error = feed_memory_with_mem_file("program.mem", &memory);
+    int error = feed_memory_with_mem_file(argv[0], &memory);
 
     if(error) return error;
 

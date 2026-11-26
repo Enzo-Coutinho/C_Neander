@@ -51,7 +51,7 @@ static void execute(cpu_t * cpu, memory_t * memory) {
         case NOT: // AC <- ~AC (Update N and Z)
             write_accumulator_and_update_N_Z(cpu, ~cpu->registers.AC);
             break;
-        case JMP: // PC = MEM(addr)
+        case JMP:
             cpu->instruction_register.operand_address = read_byte_from_memory_at_program_counter_and_advance(cpu, memory);    
             cpu->registers.PC = cpu->instruction_register.operand_address;
             break;
